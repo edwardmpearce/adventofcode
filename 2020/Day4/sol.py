@@ -11,12 +11,12 @@ Part 2: Count the number of passports with all necessary fields present and vali
 
 def main():
     validity_checks = {
-    "byr": check_birth_year, 
-    "iyr": check_issue_year, 
-    "eyr": check_expiration_year, 
-    "hgt": check_height, 
-    "hcl": check_hair_colour, 
-    "ecl": check_eye_colour, 
+    "byr": check_birth_year,
+    "iyr": check_issue_year,
+    "eyr": check_expiration_year,
+    "hgt": check_height,
+    "hcl": check_hair_colour,
+    "ecl": check_eye_colour,
     "pid": check_passport_id
     }
     results = {"total": 0, "fields_present": 0, "fields_valid": 0}
@@ -39,7 +39,7 @@ def main():
                     results["fields_valid"] += check_fields_valid(passport, validity_checks)
                 # Reset the `passport` variable to an empty dictionary
                 passport = {}
-                
+
     # Check validity of the final passport in the input file
     results["total"] += len(passport) > 0
     if check_fields_present(passport, validity_checks):

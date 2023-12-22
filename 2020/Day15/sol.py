@@ -38,12 +38,12 @@ def play_game_n_rounds(starting_nums, n):
         # If the number spoken on the previous turn is new/not a repeat, then the current player says 0.
         # Otherwise the number spoken on the previous turn is a repeat, and the current player announces
         # how many turns passed between the last turn and the earlier turn when the number was spoken.
-        num = 0 if len(occurences[num]) < 2 else turn - 1 - occurences[num][-2]           
+        num = 0 if len(occurences[num]) < 2 else turn - 1 - occurences[num][-2]
 
         # Update the list of occurences for the number which was announced on this turn
         occurences[num] = (occurences[num][-1], turn) if num in occurences else (turn,)
 
-    return num  
+    return num
 
 
 def test_game():

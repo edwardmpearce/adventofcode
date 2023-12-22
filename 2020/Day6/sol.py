@@ -31,7 +31,7 @@ def main():
                 # Reset the `responses` variable for the next group of passengers
                 responses["any_yes"] = set()
                 responses["all_yes"] = set("abcdefghijklmnopqrstuvwxyz")
-                
+
     # Add the form reponses summary from the last group in the input file
     if len(responses["any_yes"]) > 0:
         results["groups"] += 1
@@ -42,7 +42,7 @@ def main():
     print(f"Found {results['passengers']} passengers collected into {results['groups']} groups.")
     print("For each group, we counted the number of questions to which anyone answered 'yes'.")
     print(f"Part 1: The sum of these 'any_yes' question counts is {results['any_yes_group_sum']}.")
-    print("For each group, we counted the number of questions to which everyone answered 'yes'.") 
+    print("For each group, we counted the number of questions to which everyone answered 'yes'.")
     print(f"Part 2: The sum of these 'all_yes' question counts is {results['all_yes_group_sum']}.")
     return 0
 

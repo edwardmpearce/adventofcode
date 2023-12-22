@@ -18,7 +18,7 @@ def main():
     # Part 1
     # Sort the adapters so that we can connect each one in turn
     # Include an effective joltage rating of 0 for the charging outlet
-    # Add the device's built-in joltage adapter rated for 3 jolts higher 
+    # Add the device's built-in joltage adapter rated for 3 jolts higher
     # than the highest-rated adapter in your bag (`data`)
     device_rating = max(data) + 3
     ordered_adapters = [0] + sorted(data) + [device_rating]
@@ -42,7 +42,7 @@ def main():
     for i in reversed(range(device_rating)):
         # No paths to device unless we have an adapter with rating `i`
         if i in ratings_set:
-            # We make an path from `i` to the end by prepending it to 
+            # We make an path from `i` to the end by prepending it to
             # any path from one of its children adapters to the end
             count_arrangements_from[i] = sum(count_arrangements_from[i+1:i+4])
 

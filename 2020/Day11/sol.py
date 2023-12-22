@@ -3,7 +3,7 @@
 --- Day 11: Seating System ---
 https://adventofcode.com/2020/day/11
 Part 1: Simulating Conway's Game of Life (Cellular Automata)
-        References: 
+        References:
         - https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
         - https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
         - https://en.wikipedia.org/wiki/Moore_neighborhood
@@ -23,7 +23,7 @@ def main():
     for rule, seat_map in seat_maps.items():
         # Update SeatMap instance by a single round from initial state according to the update rule
         changes = seat_map.update_state()
-    
+
         # Update the state of the SeatMap one round at a time until we stabilize/reach an equilibrium
         # To avoid infinite loops, it would be necessary to record a list of visited states
         while changes > 0:
@@ -123,7 +123,7 @@ class SeatMap:
             # Return a new SeatMap instance
             return changes, SeatMap(new_state)
 
-    
+
     def get_adjacent_neighbours(self, i, j):
         """
         Return the number of occupied seats (#) in a 3x3 grid about cell (i,j).
@@ -151,8 +151,8 @@ class SeatMap:
 
     def line_of_sight(self, i, j, direction):
         """Return the state of the first seat visible from (i,j) when looking towards `direction`.
-        Follow line of sight (i,j) + k * `direction`, k > 0 until we find an empty (L) or 
-        occupied (#) seat to return or otherwise reach the edge of the grid and return '.' 
+        Follow line of sight (i,j) + k * `direction`, k > 0 until we find an empty (L) or
+        occupied (#) seat to return or otherwise reach the edge of the grid and return '.'
         """
         # Unpack direction tuple
         x_shift, y_shift = direction
@@ -177,9 +177,9 @@ class SeatMap:
         """
         Given an input cell and a count of its (adjacent or visible) neighbours,
         return the state of the input cell in the next round according to the update rule:
-            If a seat is empty (L) and there are no occupied seats adjacent to/visible from it, 
+            If a seat is empty (L) and there are no occupied seats adjacent to/visible from it,
                 the seat becomes occupied.
-            If a seat is occupied (#) and the number of occupied neighbours exceeds the tolerance, 
+            If a seat is occupied (#) and the number of occupied neighbours exceeds the tolerance,
                 the seat becomes empty.
             Otherwise, the seat's state does not change.
         """
@@ -187,7 +187,7 @@ class SeatMap:
             # Empty seat with no occupied neighbours becomes occupied
             return '#'
         elif cell == '#' and neighbours > tolerance:
-            # Occupied seat becomes empty due to overcrowding 
+            # Occupied seat becomes empty due to overcrowding
             # The cell itself is counted as neighbour when using the adjacency rule
             return 'L'
         else:

@@ -14,8 +14,8 @@ def main():
     with open("input.txt", 'r') as file:
         data = list(map(int, file))
 
-    # Find the first number in the list which cannot be expressed as the sum of two distinct 
-    # integers among the 25 numbers preceding it. 
+    # Find the first number in the list which cannot be expressed as the sum of two distinct
+    # integers among the 25 numbers preceding it.
     # The pair of numbers in the preamble set must have distinct values (and hence distinct indices)
     invalid_num = first_invalid_num(data, 25)
 
@@ -32,7 +32,7 @@ def main():
 
 def first_invalid_num(nums, len_preamble):
     """
-    Find the first number in the input list `nums` which cannot be expressed as the sum of 
+    Find the first number in the input list `nums` which cannot be expressed as the sum of
     two distinct integers among the `len_preamble` numbers preceding it. Starts checking validity
     from the number at index `len_preamble` in `nums` so that we have enough preceding numbers.
     Returns `None` if no such invalid number is found in the list, or if len(nums) <= len_preamble.
@@ -43,7 +43,7 @@ def first_invalid_num(nums, len_preamble):
         # Check whether we can express `target` as the sum of a distinct pair from the preamble set
         if not two_sum(preamble, target):
             # Target value not valid in the sequence
-            return target            
+            return target
     # Otherwise, no invalid numbers in the `nums` sequence
     return None
 
@@ -55,7 +55,7 @@ def find_sum_subseq(nums, target):
     and return the subsequence indices for slicing if exists, else return False
 
     We slide a variable sized window across the `nums` array and track the cumulative sum of array vals
-    ensuring the window always has length at least 2. As `nums` contains only positive integers, 
+    ensuring the window always has length at least 2. As `nums` contains only positive integers,
     adding an element to the end of the window always increases the array sum, whilst removing an
     element from the start of the window always decreases the array sum.
     """

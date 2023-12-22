@@ -2,7 +2,7 @@
 """
 --- Day 3: Toboggan Trajectory ---
 https://adventofcode.com/2020/day/3
-Part 1: Draw a line of rational slope on a cylindrical grid and count the number of marked points 
+Part 1: Draw a line of rational slope on a cylindrical grid and count the number of marked points
         that the line passes through (for a given grid map containing marked points and line slope)
 Part 2: Repeat for a selection of slopes and compute the product of number of trees encountered
 
@@ -16,7 +16,7 @@ def main():
         # Don't forget to remove the newline character
         grid_map = [line.strip() for line in file]
 
-    # Print the number of trees (represented by `#`) that would be encountered by 
+    # Print the number of trees (represented by `#`) that would be encountered by
     # starting at the top-left corner of the map and following a slope of right 3 and down 1.
     print(f"Part 1: {collisions(grid_map, 1, 3)} trees encountered for rise:run = 1:3.")
 
@@ -37,7 +37,7 @@ def main():
 
 def collisions(grid_map, rise, run):
     """
-    Count the number of trees (represented by `#`) encountered by moving along the path 
+    Count the number of trees (represented by `#`) encountered by moving along the path
     (i * rise, i * run) through the grid starting from i = 0 (at (0,0)) to i = height - 1.
     """
     period = len(grid_map[0])

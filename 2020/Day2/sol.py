@@ -22,14 +22,14 @@ def main():
 
             for i, validity_check in enumerate(password_policies):
                 valid_passes[i] += validity_check(password, test_char, a, b)
-    
+
     for i, count in enumerate(valid_passes, 1):
         print(f"Part {i}: {count} valid passwords")
 
 
 def valid1(s, c, low, high):
     """
-    Returns True or False depending on whether the number of occurences of the character `c` 
+    Returns True or False depending on whether the number of occurences of the character `c`
     in the string `s` is between the integers `low` and `high` inclusive
     """
     return low <= s.count(c) <= high

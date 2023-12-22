@@ -15,8 +15,8 @@ def main():
     indices = {"acc": [], "jmp": [], "nop": []}
     with open("input.txt", 'r') as file:
         for i, line in enumerate(file):
-            # The boot code is represented as a text file with one instruction per line of text. 
-            # Each instruction consists of an operation (acc, jmp, or nop) 
+            # The boot code is represented as a text file with one instruction per line of text.
+            # Each instruction consists of an operation (acc, jmp, or nop)
             # and an argument (a signed number like +4 or -20).
             op, arg = line.split()
             boot_code.append((op, int(arg)))
@@ -53,7 +53,7 @@ def fetch_execute(instructions):
     visited = set()
 
     # Iterate through the instructions, updating the accumulator and following jump operations,
-    # until we read the same instruction twice (infinite loop), or jump to instruction 
+    # until we read the same instruction twice (infinite loop), or jump to instruction
     # index out of bounds. Program terminated successfully if i = len(instructions).
     while 0 <= i < len(instructions):
         # Check for infinite loop

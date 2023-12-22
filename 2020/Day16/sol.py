@@ -97,8 +97,8 @@ def parse_range(s):
 
 def in_range(target, bounds):
     """
-    Check whether target integer x lies within the closed interval [a,b] 
-    where bounds (a,b) are given as a tuple of integers. 
+    Check whether target integer x lies within the closed interval [a,b]
+    where bounds (a,b) are given as a tuple of integers.
     Returns boolean value of the expression a <= x <= b
     """
     lower, upper = bounds

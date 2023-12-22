@@ -2,7 +2,7 @@
 """
 --- Day 13: Shuttle Search ---
 https://adventofcode.com/2020/day/13
-Part 1: Find the coset -d + k * ZZ with the smallest nonnegative element 
+Part 1: Find the coset -d + k * ZZ with the smallest nonnegative element
         for a fixed integer d and a list of candidates for k.
 Part 2: Solving multiple congruence relations (Chinese remainder theorem)
         Solution exists as input bus IDs are all prime, hence pairwise coprime
@@ -34,7 +34,7 @@ def main():
     # We may express this through congruence relations `t = -delay (mod bus_id)` for bus_ids, delays
     # The solution is bounded above by the product of the input (pairwise coprime) bus IDs
     timestamp, _ = solve_multiple_congruence([-d for d in delays], bus_ids)
-    
+
     print("Part 2: By solving the corresponding system of congruence equations, we find that")
     print("the earliest timestamp such that all of the listed bus IDs depart at offsets matching")
     print(f"their positions in the list is {timestamp}.")
@@ -54,7 +54,7 @@ def wait_until_next_bus(bus_id, start):
 
 def extended_euclidean_algorithm(a, b):
     """
-    Calculate the highest common factor (hcf) of integers `a` and `b` and the 
+    Calculate the highest common factor (hcf) of integers `a` and `b` and the
     coefficients of Bézout's identity, which are integers `x` and `y` such that ax + by = hcf(a,b).
     """
     r0, r1 = a, b
@@ -69,7 +69,7 @@ def extended_euclidean_algorithm(a, b):
         x0, x1 = x1, x0 - q * x1
         # y_{i+1} = y_{i-1} - q_{i} * y_{i}
         y0, y1 = y1, y0 - q * y1
-    # Verify that when r_{k+1} = 0, the last nonzero remainder r_{k} 
+    # Verify that when r_{k+1} = 0, the last nonzero remainder r_{k}
     # is the highest common factor of a and b
     assert a % r0 == 0 and b % r0 == 0
     # Verify the corresponding x_{k}, y_{k} are coefficients of Bézout's identity
@@ -80,9 +80,9 @@ def extended_euclidean_algorithm(a, b):
 
 def solve_congruence_pair(a_i, n_i):
     """
-    Solve the system of congruence equations, x = a_{1} (mod n_{1}), x = a_{2} (mod n_{2}) 
+    Solve the system of congruence equations, x = a_{1} (mod n_{1}), x = a_{2} (mod n_{2})
     where n_{1}, n_{2} are coprime.
-    For integers m_{1}, m_{2} such that m_{1} * n_{1} + m_{2} * n_{2} = 1, 
+    For integers m_{1}, m_{2} such that m_{1} * n_{1} + m_{2} * n_{2} = 1,
     then x = a_{2}*m_{1}*n_{1} + a_{1}*m_{2}*n_{2} is a solution.
     """
     (a1, a2), (n1, n2) = a_i, n_i
@@ -92,8 +92,8 @@ def solve_congruence_pair(a_i, n_i):
 
 def solve_multiple_congruence(a_i, n_i):
     """
-    Solve the system of congruence equations, x = a_{i} (mod n_{i}), i = 1, 2, ..., k, 
-    where n_{i} are pairwise coprime. The Chinese remainder theorem states that 
+    Solve the system of congruence equations, x = a_{i} (mod n_{i}), i = 1, 2, ..., k,
+    where n_{i} are pairwise coprime. The Chinese remainder theorem states that
     there is a solution x which is unique modulo N = prod(n_i).
     """
     solution, modulus = a_i[0], n_i[0]

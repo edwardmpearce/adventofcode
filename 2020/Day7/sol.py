@@ -15,18 +15,18 @@ def main():
     regulations = load_luggage_regulations("input.txt")
     print(f"Regulations found for {len(regulations)} different types of bag!")
 
-    # Partition the bag colours in the `regulations` into two disjoint subsets: 
+    # Partition the bag colours in the `regulations` into two disjoint subsets:
     # Those which contain a shiny gold bag as a descendant and those which do not.
     # For each bag type in the regulations, we depth-first search through the dependency tree
-    # for a path from the starting bag type to a shiny gold bag.   
+    # for a path from the starting bag type to a shiny gold bag.
     ancestors, nonancestors = get_ancestors(regulations, "shiny gold")
 
     print(f"Part 1: Found {len(ancestors)} bag types which have a shiny gold bag as a descendent.\n"
             f"\tFound {len(nonancestors)} bag types which do not have a shiny gold bag as an descendent.")
-    
+
     # Count the number of individual bags required inside a single shiny gold bag
     descendents = count_descendents(regulations, "shiny gold")
-    
+
     print(f"Part 2: A single shiny gold bag is required to contain {descendents} other bags.")
     return 0
 
@@ -43,7 +43,7 @@ def load_luggage_regulations(filename):
                 if len(rule.split()) == 3:
                     # rule == "no other bags."
                     regulations[bag_type] = {}
-                else:    
+                else:
                     # rule == "{num} {pattern} {colour} bag(s)"
                     num, pattern, colour, _ = rule.split()
                     # Example dict item: "plaid fuchsia: {'light violet': '5', 'light yellow': '1'}"
@@ -53,16 +53,16 @@ def load_luggage_regulations(filename):
 
 def get_ancestors(graph, target):
     """
-    Partition the nodes of a graph into two disjoint subsets: 
+    Partition the nodes of a graph into two disjoint subsets:
     those which contain the target node as a descendant and those which do not.
 
     For each node in the graph, we depth-first search through the graph to find a path from the
-    the starting node to the target node. If we can find a path to the target node, we add it to 
+    the starting node to the target node. If we can find a path to the target node, we add it to
     the set of `ancestors` of the `target`, otherwise we add it to the set of `nonancestors`.
     """
     # Initialize the `ancestors` and `nonancestors` variables as empty sets
     ancestors, nonancestors = set(), set()
-    
+
     for node in graph.copy():
         path_exists = search(graph, node, target)
         if path_exists:

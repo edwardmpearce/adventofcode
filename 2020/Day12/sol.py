@@ -2,7 +2,7 @@
 """
 --- Day 12: Rain Risk ---
 https://adventofcode.com/2020/day/12
-Part 1: Navigate robot in 2D Cartesian space with instructions for turning, moving forward 
+Part 1: Navigate robot in 2D Cartesian space with instructions for turning, moving forward
         and moving in cardinal directions (NESW)
 Part 2: Navigate robot in 2D Cartesian space with instructions for moving via a (moveable) waypoint
 """
@@ -18,7 +18,7 @@ def main():
     # Create two Ferry instances located at the origin facing East with default waypoint at (10,1)
     ferry1 = Ferry()
     ferry2 = Ferry()
-    
+
     for instruction in nav_actions:
         ferry1.move(instruction)
         ferry2.move_waypoint(instruction)
@@ -119,7 +119,7 @@ class Ferry:
     def move_waypoint(self, instruction):
         """Move the ship's waypoint (or move ship towards waypoint) according to input instruction.
         Either move the waypoint directly in a cardinal direction (NESW), adjust the angle the
-        waypoint makes with the ship by rotating (LR) a given number of degrees, 
+        waypoint makes with the ship by rotating (LR) a given number of degrees,
         or move forward (F) to the waypoint a given number of times."""
         # Parse instruction string into `action` and `arg` (distance or angle)
         action, arg = instruction[0], int(instruction[1:])

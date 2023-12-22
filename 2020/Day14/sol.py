@@ -57,7 +57,7 @@ def main():
 def parse_value_bitmask(bitstring):
     """Parse a ternary string specifying a bitmask.
     The bitmask is given as a string of 36 bits, written with the most significant bit on the left
-    and the least significant bit on the right. A 0 or 1 overwrites the corresponding bit in the value, 
+    and the least significant bit on the right. A 0 or 1 overwrites the corresponding bit in the value,
     while an X leaves the bit in the value unchanged.
 
     Since there are three possible modes for each position in the bitmask, we require more than one
@@ -79,7 +79,7 @@ def parse_value_bitmask(bitstring):
 
 
 def apply_address_mask(address, bitmask):
-    """Each bit in the bitmask modifies the corresponding bit of the destination memory address 
+    """Each bit in the bitmask modifies the corresponding bit of the destination memory address
     in the following way:
         If the bitmask bit is 0, the corresponding memory address bit is unchanged.
         If the bitmask bit is 1, the corresponding memory address bit is overwritten with 1.
@@ -92,13 +92,13 @@ def apply_address_mask(address, bitmask):
 def resolve_floating_bits(bitstring):
     """Given a bitstring containing floating bits, return a list of all possible values it can take.
 
-    In electronics, a floating bit is not connected to anything and instead fluctuates unpredictably.  
+    In electronics, a floating bit is not connected to anything and instead fluctuates unpredictably.
     If a bitstring contains n floating bits (each denoted by 'X'), it can take on 2^n possible values,
     where each floating bit resolves to either 0 or 1 at a given time.
     """
     num_f_bits = bitstring.count('X')
     template = bitstring.replace('X', "{}")
-    # Iterate through all binary strings of length num_f_bits to replace floating bits (X) with 
+    # Iterate through all binary strings of length num_f_bits to replace floating bits (X) with
     # either '0' or '1' in all possible combinations, then cast the resulting valid bitstrings to int
     values = [int(template.format(*f"{i:0{num_f_bits}b}"), base=2) for i in range(1 << num_f_bits)]
     return values
