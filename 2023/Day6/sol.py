@@ -35,7 +35,7 @@ def main():
 
 def calculate_ways_to_win(race_time: int, distance_record: int, allow_sqrt=False) -> int:
     if allow_sqrt:
-        # Find shortest_winning_press_time using the quadratic formula. 
+        # Find shortest_winning_press_time using the quadratic formula.
         # This approach is O(log(race_time)) complexity from calculating the square root. See references for more details.
         shortest_winning_press_time = int((race_time - math.sqrt(race_time * race_time - 4 * distance_record)) / 2 + 1)
     else:
