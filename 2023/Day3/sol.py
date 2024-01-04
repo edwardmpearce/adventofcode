@@ -10,9 +10,9 @@ from collections import defaultdict
 
 def main():
     # Scan through the schematic file to locate the numbers and symbols
-    schematic_numbers, symbols = parse_input_for_numbers_and_symbols("input.txt")
+    schematic_numbers, symbols = read_engine_schematic("input.txt")
 
-    # Any number adjacent to a symbol, even diagonally, is a "part number" and should be included in your sum. 
+    # Any number adjacent to a symbol, even diagonally, is a "part number" and should be included in your sum.
     # Periods (.) do not count as a symbol
     part1_total = sum(
         schematic_number["value"]
@@ -35,7 +35,7 @@ def main():
     return 0
 
 
-def parse_input_for_numbers_and_symbols(filename):
+def read_engine_schematic(filename: str):
     """Scan through a schematic file to locate numbers and symbols
     schematic_numbers is a dictionary from row indices to lists of schematic numbers (position and value data)
     symbols is a dictionary from (row, col) positions to symbol characters
