@@ -4,6 +4,8 @@
 https://adventofcode.com/2015/day/1
 
 Commentary
+The core theme of this puzzle is iteration/loops
+
 For part 1, the floor reached by following the instructions can be determined either by
 calculating the floor number at each step in the path through the instruction set directly
 or counting the number of 'up' and 'down' operations and taking the difference.
@@ -48,12 +50,14 @@ def main():
 
 
 def generate_floor_path(instructions: str) -> Iterator[int]:
+    directions = {
+        '(': 1,
+        ')': -1
+    }
+
     current_floor = 0
     for char in instructions:
-        if char == '(':
-            current_floor += 1
-        elif char == ')':
-            current_floor -= 1
+        current_floor += directions[char]
         yield current_floor
 
 

@@ -2,6 +2,12 @@
 """
 --- Day 2: I Was Told There Would Be No Math ---
 https://adventofcode.com/2015/day/2
+
+Commentary
+The core themes of this puzzle are basic text parsing and arithmetic, loops, and sorting
+An additional theme is the benefit of abstraction (of repeated calculations into functions)
+This puzzle also provides a good opportunity to demonstrate a simple, but non-trivial example 
+of object-oriented programming (python classes, methods, inheritance)
 """
 from __future__ import annotations
 import os
