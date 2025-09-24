@@ -37,7 +37,7 @@ def main():
 
 def encode_string(s: str) -> str:
     """Returns an encoded string which will produce the input string `s` when passed to `ast.literal_eval`.
-    Escapes the special characters (single backslash) and (single double-quote) in string literals by adding a leading backslash, 
+    Escapes the special characters (single backslash) and (single double-quote) in string literals by adding a leading backslash,
     and concatenates a double-quote character to the start and end of the result.
     Note: The order of `replace` operations in this implementation is important to avoid double-escaping.
     """

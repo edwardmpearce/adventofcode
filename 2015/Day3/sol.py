@@ -46,7 +46,7 @@ def generate_travel_path(instructions: str) -> Iterator[Vector]:
 def solution_part_1(instructions: str):
     num_distinct_locations_visited: int = len(set(generate_travel_path(instructions)))
     print(f"Part 1: The number of distinct locations visited is {num_distinct_locations_visited}")
-    
+
 
 def solution_part_2(instructions: str):
     """Part 2: Distinct locations visited by two agents with same starting location
