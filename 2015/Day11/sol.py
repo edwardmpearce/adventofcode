@@ -2,7 +2,7 @@
 """
 --- Day 11: Corporate Policy ---
 https://adventofcode.com/2015/day/11
-Possible themes: 
+Possible themes:
 - Breaking down problems into smaller pieces
 - Program design and optimization
 - String slicing and padding
@@ -113,12 +113,12 @@ class PasswordStatus(enum.Flag):
 
 
 def validate_password(s: str) -> PasswordStatus:
-    """Validate the input string against a predefined set of password requirements, returning an `enum.Flag` object 
+    """Validate the input string against a predefined set of password requirements, returning an `enum.Flag` object
     which indicates which requirements are satisfied and whether the password is valid overall
     """
     status = PasswordStatus(0)
     if not any(c in s for c in FORBIDDEN_LETTERS):
-        status |= PasswordStatus.NO_FORBIDDEN_LETTERS    
+        status |= PasswordStatus.NO_FORBIDDEN_LETTERS
     # Check the input string for an increasing straight of at least three letters, like 'abc', 'bcd', 'cde', and so on, up to 'xyz'
     if longest_increasing_straight(s) >= 3:
         status |= PasswordStatus.STRAIGHT_OF_THREE

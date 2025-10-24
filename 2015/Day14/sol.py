@@ -19,7 +19,7 @@ def main():
     part_1_winner: str = max(racers, key=final_standings.get)
 
     print(f"Part 1: After {race_duration} seconds, the winning reindeer is {part_1_winner}, who travelled {final_standings[part_1_winner]} km")
-    
+
     points: dict[str, int] = {name: 0 for name in racers}
     for i in range(1, race_duration + 1):
         standings = {name: reindeer.distance_travelled(i) for name, reindeer in racers.items()}
@@ -27,7 +27,7 @@ def main():
         for name, distance in standings.items():
             if distance == lead_distance:
                 points[name] += 1
-    
+
     part_2_winner: str = max(racers, key=points.get)
 
     print(f"Part 2: After {race_duration} seconds, the winning reindeer is {part_2_winner}, with {points[part_2_winner]} points")
