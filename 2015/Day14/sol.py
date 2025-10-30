@@ -49,9 +49,7 @@ class Reindeer:
 
 
 def read_input_data() -> dict[str, Reindeer]:
-    """Read an input file of the payoffs (in happiness units), positive or negative,
-    that a person would receive by sitting next to a particular other person
-    """
+    """Read an input file of reindeer racing characteristics"""
     racers: dict[str, Reindeer] = {}
     with open(os.path.join(DIRPATH, "input.txt"), 'r') as file:
         for line in file:
