@@ -37,8 +37,8 @@ def find_smallest_valid_nonce(key: str, difficulty: int) -> int:
     The 128-bit (16-byte) MD5 hashes (also termed message digests) are typically represented as a sequence of 32 hexadecimal digits.
     An arbitrary upper bound is used for the size of the search space to prevent the hypothetical risk of an infinite loop
     """
-    if not isinstance(difficulty, int) or difficulty < 0:
-        raise ValueError("Difficulty must be a non-negative integer")
+    if not (isinstance(difficulty, int) and 0 <= difficulty <= 32):
+        raise ValueError("Difficulty must be an integer between 0 and 32")
     elif difficulty == 0:
         return 0
 
