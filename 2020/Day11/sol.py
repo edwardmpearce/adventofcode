@@ -3,21 +3,22 @@
 --- Day 11: Seating System ---
 https://adventofcode.com/2020/day/11
 Part 1: Simulating Conway's Game of Life (Cellular Automata)
-        References:
-        - https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
-        - https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
-        - https://en.wikipedia.org/wiki/Moore_neighborhood
 Part 2: Variation on Game of Life simulation mixed with attacking chess queens
-"""
 
+References:
+- https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+- https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
+- https://en.wikipedia.org/wiki/Moore_neighborhood
+"""
+from typing import Self
 
 def main():
     # Create SeatMap instances based on input data from file with different rules for updating state
     # SeatMap state is stored as a list of strings
-    update_rules = ["adjacency", "visibility"]
-    seat_maps = {rule: SeatMap.load_initial_state("input.txt", rule) for rule in update_rules}
-    rounds_to_stable = {rule: 0 for rule in update_rules}
-    equilibrium_occupancy = {}
+    update_rules: list[str] = ["adjacency", "visibility"]
+    seat_maps: dict[str, SeatMap] = {rule: SeatMap.load_initial_state("input.txt", rule) for rule in update_rules}
+    rounds_to_stable: dict[str, int] = {rule: 0 for rule in update_rules}
+    equilibrium_occupancy: dict[str, int] = {}
 
     # For each update rule, find the equilibrium state and final seat occupancy
     for rule, seat_map in seat_maps.items():
@@ -43,29 +44,25 @@ def main():
 
 class SeatMap:
     """SeatMap state is stored as a list of strings"""
-    def __init__(self, data, update_method="adjacency"):
-        self._state = data
-        self.update_method = update_method
+    def __init__(self, data: list[str], update_method: str="adjacency"):
+        self._state: list[str] = data
+        self.update_method: str = update_method
         return
 
-
     @property
-    def state(self):
+    def state(self) -> list[str]:
         return self._state
 
-
     @property
-    def height(self):
+    def height(self) -> int:
         return len(self.state)
 
-
     @property
-    def width(self):
+    def width(self) -> int:
         return len(self.state[0]) if self.height > 0 else 0
 
-
     @classmethod
-    def load_initial_state(cls, filename, update_method="adjacency"):
+    def load_initial_state(cls, filename, update_method="adjacency") -> Self:
         """Read seat layout initial state from file"""
         # Read the input data into memory as a list of (immutable) strings
         with open(filename, 'r') as file:
@@ -73,33 +70,28 @@ class SeatMap:
         # Create a SeatMap instance based on the input data
         return cls(data, update_method)
 
-
-    def get_cell(self, i, j):
+    def get_cell(self, i, j) -> str:
         return self.state[i][j]
 
-
-    def set_state(self, data):
+    def set_state(self, data: list[str]) -> None:
         # Check that the input data matches the shape of the state grid
         assert len(data) == self.height
         assert (len(data[0]) if self.height > 0 else 0) == self.width
         self._state = data
-        return
 
-
-    def occupied(self):
+    def occupied(self) -> int:
         """Return the number of occupied seats (#) in the current grid state"""
-        return sum(sum(cell == '#' for cell in row) for row in self.state)
+        return sum(row.count('#') for row in self.state)
 
-
-    def update_state(self, inplace=True):
+    def update_state(self, inplace=True) -> int:
         """Update the state of the seat map by a single round, returning number of changes"""
         # Initialize variable to count the number of changes made to the state of cells in the grid
-        changes = 0
+        changes: int = 0
 
         # Apply the update rule to every cell simultaneously, storing the result in a new 2D array
-        new_state = []
+        new_state: list[str] = []
         for i in range(self.height):
-            new_row = []
+            new_row: list[str] = []
             for j in range(self.width):
                 cell = self.get_cell(i, j)
                 if self.update_method == "adjacency":
@@ -121,16 +113,15 @@ class SeatMap:
             return changes
         else:
             # Return a new SeatMap instance
-            return changes, SeatMap(new_state)
+            return changes, SeatMap(new_state, update_method=self.update_method)
 
-
-    def get_adjacent_neighbours(self, i, j):
+    def get_adjacent_neighbours(self, i, j) -> int:
         """
         Return the number of occupied seats (#) in a 3x3 grid about cell (i,j).
         Usually this grid will contain 9 cells, including cell (i,j) itself,
         except when (i,j) is at the edge of the grid and we only have 4 or 6 neighbouring cells.
         """
-        neighbours = 0
+        neighbours: int = 0
         # Ensure we do not access out-of-bounds indexes when iterating over neighbours
         for y_offset in range(i - 1, i + 2):
             if not 0 <= y_offset < self.height:
@@ -140,14 +131,12 @@ class SeatMap:
                     neighbours += (self.get_cell(y_offset, x_offset) == '#')
         return neighbours
 
-
-    def get_visible_neighbours(self, i, j):
+    def get_visible_neighbours(self, i, j) -> int:
         """Count the number of occupied seats in the eight lines of sight from cell (i,j)"""
         neighbours = 0
         for direction in [(1,0), (1,1), (0,1), (-1,1), (-1,0), (-1,-1), (0,-1), (1,-1)]:
             neighbours += (self.line_of_sight(i, j, direction) == '#')
         return neighbours
-
 
     def line_of_sight(self, i, j, direction):
         """Return the state of the first seat visible from (i,j) when looking towards `direction`.
@@ -170,7 +159,6 @@ class SeatMap:
                 y_offset += y_shift
         # No seat found within grid boundaries when viewing from (i,j) in towards `direction`
         return '.'
-
 
     @staticmethod
     def update_rule(cell, neighbours, tolerance=4):
