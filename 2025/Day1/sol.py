@@ -47,9 +47,9 @@ class RotataryDial:
     def __init__(self, num_positions: int, start_position: int):
         self.num_positions: int = num_positions
         self.current_position: int = start_position
-    
+
     def rotate(self, direction: int, distance: int) -> tuple[int, int]:
-        """Update dial position and return together with the number of times any click causes the dial to point at 0, 
+        """Update dial position and return together with the number of times any click causes the dial to point at 0,
         regardless of whether it happens during a rotation or at the end of one.
         """
         assert direction in {-1,1} and distance > 0
