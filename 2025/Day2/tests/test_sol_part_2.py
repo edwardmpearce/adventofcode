@@ -3,7 +3,6 @@
 References
 - https://docs.pytest.org/en/latest/how-to/parametrize.html#parametrizemark
 """
-
 import pytest
 from solution.part_2 import solve_part_2, find_invalid_ids, prime_factors_of_numbers_in_range
 

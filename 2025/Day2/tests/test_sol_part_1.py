@@ -3,7 +3,6 @@
 References
 - https://docs.pytest.org/en/latest/how-to/parametrize.html#parametrizemark
 """
-
 import pytest
 from solution.part_1 import solve_part_1, find_invalid_ids
 
