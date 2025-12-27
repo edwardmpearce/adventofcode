@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 """
---- Day 11: Seating System ---
-https://adventofcode.com/2020/day/11
+--- Day 18: Like a GIF For Your Yard ---
+https://adventofcode.com/2015/day/18
 Part 1: Simulating Conway's Game of Life (Cellular Automata)
-Part 2: Variation on Game of Life simulation mixed with attacking chess queens
+Part 2: Modification with boundary condition: corners always on
 
 References:
 - https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 - https://en.wikipedia.org/wiki/Cellular_automaton
-- https://en.wikipedia.org/wiki/Von_Neumann_neighborhood
-- https://en.wikipedia.org/wiki/Moore_neighborhood
 """
 import os
 from collections.abc import Iterator, Callable
@@ -24,28 +22,32 @@ def main():
         data = [line.strip() for line in file]
 
     part_1_answer = solve_part_1(data)
-    print(f"Part 1: With neighbourhood by adjacency, the final equilibrium state has {part_1_answer} seats occupied.")
+    print(f"Part 1: After 100 steps, there are {part_1_answer} lights on.")
 
     part_2_answer = solve_part_2(data)
-    print(f"Part 2: With neighbourhood by visibility, the final equilibrium state has {part_2_answer} seats occupied.")
+    print(f"Part 2: With the four corner lights always in the on state, after 100 steps, there are {part_2_answer} lights on.")
 
 
 def solve_part_1(data: list[str]) -> int:
-    adjacency_seat_map = CellularAutomata(
-        initial_state=data,
-        cell_new_state_rule=SeatingUpdateRule(get_adjacent_neighbours, tolerance=4)
-    )
-    adjacency_seat_map.evolve_n_generations(100)
-    return adjacency_seat_map.count('#')
+    """Simulate Conway's Game of Life for 100 steps on a 100x100 grid from an initial state"""
+    light_grid = CellularAutomata(initial_state=data, cell_new_state_rule=conways_rule_of_life)
+    light_grid.evolve_n_generations(100)
+    return light_grid.count('#')
 
 
 def solve_part_2(data: list[str]) -> int:
-    visibility_seat_map = CellularAutomata(
-        initial_state=data,
-        cell_new_state_rule=SeatingUpdateRule(get_visible_neighbours, tolerance=5)
-    )
-    visibility_seat_map.evolve_n_generations(100)
-    return visibility_seat_map.count('#')
+    """"""
+    # Ensure corners lights are switched on in initial state
+    initial_state: list[str] = [
+        "".join([
+            '#' if (i in {0, len(data)-1} and j in {0, len(line)-1}) else c
+            for j, c in enumerate(line)
+        ])
+        for i, line in enumerate(data)
+    ]
+    light_grid = CellularAutomata(initial_state, life_with_corner_cases)
+    light_grid.evolve_n_generations(100)
+    return light_grid.count('#')
 
 
 class CellGrid:
@@ -134,68 +136,37 @@ class CellularAutomata(CellGrid):
         self._t += n
 
 
-class SeatingUpdateRule:
-    """"""
-    def __init__(self, get_neighbours: Callable[[CellGrid, int, int], Iterator[str]], tolerance: int):
-        self._get_neighours = get_neighbours
-        self.tolerance = tolerance
-
-    def __call__(self, cell_grid: CellGrid, i: int, j: int) -> str:
-        """
-        Given an input cell and a count of its (live) neighbours according to some neighbourhood criteria,
-        return the state of the input cell in the next round according to the update rule:
-            If a seat is empty (L) and there are no occupied seats adjacent to/visible from it,
-                the seat becomes occupied.
-            If a seat is occupied (#) and the number of occupied neighbours exceeds the tolerance,
-                the seat becomes empty.
-            Otherwise, the seat's state does not change.
-        """
-        cell: str = cell_grid.get_cell(i,j)
-        occupied_neighbours = sum(neighbour == '#' for neighbour in self._get_neighours(cell_grid, i, j))
-        if cell == 'L' and occupied_neighbours == 0:
-            # Empty seat with no occupied neighbours becomes occupied
-            return '#'
-        elif cell == '#' and occupied_neighbours >= self.tolerance:
-            # Occupied seat becomes empty due to overcrowding
-            return 'L'
-        else:
-            # Otherwise seat status doesn't change
-            return cell
-
-
-def get_adjacent_neighbours(cell_grid: CellGrid, i: int, j: int) -> Iterator[str]:
-    """Yield states of the first seat visible in each of the eight lines-of-sight from cell (i,j)."""
-    for x, y, in cell_grid.adjacent_neighbourhood(i, j):
-        yield cell_grid.get_cell(x, y)
-
-
-def get_visible_neighbours(cell_grid: CellGrid, i: int, j: int) -> Iterator[str]:
-    """Yield states of the first seat visible in each of the eight lines-of-sight from cell (i,j)."""
-    for direction in [(1,0), (1,1), (0,1), (-1,1), (-1,0), (-1,-1), (0,-1), (1,-1)]:
-        yield line_of_sight(cell_grid, i, j, direction)
-
-
-def line_of_sight(cell_grid: CellGrid, i: int, j: int, direction: tuple[int, int]) -> str:
-    """Return the state of the first seat visible from (i,j) when looking towards `direction`.
-    Follow line of sight (i,j) + k * `direction`, k > 0 until we find an empty (L) or
-    occupied (#) seat to return or otherwise reach the edge of the grid and return '.'
+def conways_rule_of_life(cell_grid: CellGrid, i: int, j: int) -> str:
     """
-    # Unpack direction tuple
-    x_shift, y_shift = direction
-    # Initialize coordinates of cell offset from (i,j) to check for a seat
-    x_offset, y_offset = i + x_shift, j + y_shift
-    # Follow line of sight in direction until a seat is seen or we reach the edge of the grid
-    while (0 <= x_offset < cell_grid.height) and (0 <= y_offset < cell_grid.width):
-        view_cell = cell_grid.get_cell(x_offset, y_offset)
-        if view_cell in {'L', '#'}:
-            # Seat found
-            return view_cell
-        else:
-            # No seat found. Follow line of sight further
-            x_offset += x_shift
-            y_offset += y_shift
-    # No seat found within grid boundaries when viewing from (i,j) in towards `direction`
-    return '.'
+    A `#` means "on", and a `.` means "off".
+    A light which is on stays on when 2 or 3 neighbors are on, and turns off otherwise.
+    A light which is off turns on if exactly 3 neighbors are on, and stays off otherwise.
+
+    Each cell is in one of two possible states, live or dead.
+
+    Every cell interacts with its eight neighbours,
+    which are the cells that are horizontally, vertically, or diagonally adjacent.
+
+    At each step in time, the following transitions occur:
+    1. Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+    2. Any live cell with two or three live neighbours lives on to the next generation.
+    3. Any live cell with more than three live neighbours dies, as if by overpopulation.
+    4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+    """
+    live_neighbours: int = sum(cell_grid.get_cell(x,y) == '#' for (x,y) in cell_grid.adjacent_neighbourhood(i,j))
+    match cell_grid.get_cell(i,j):
+        case '#':
+            return '#' if live_neighbours in {2, 3} else '.'
+        case '.':
+            return '#' if live_neighbours == 3 else '.'
+
+
+def life_with_corner_cases(cell_grid: CellGrid, i: int, j: int) -> str:
+    """The four corner lights are stuck on and can't be turned off"""
+    if i in {0, cell_grid.height-1} and j in {0, cell_grid.width-1}:
+        return '#'
+    else:
+        return conways_rule_of_life(cell_grid, i, j)
 
 
 if __name__ == "__main__":
