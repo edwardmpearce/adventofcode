@@ -61,10 +61,13 @@ class Vector:
         return Vector(self.i + other.i, self.j + other.j)
 
     def __mul__(self, scalar: int):
-        return Vector(scalar * self.i, scalar * self.j)
+        return Vector(self.i * scalar, self.j * scalar)
 
     def __rmul__(self, scalar: int):
-        return scalar * self
+        """Swap order of operands to re-use implementation of __mul__
+        https://docs.python.org/3/reference/datamodel.html#emulating-numeric-types
+        """
+        return self * scalar
 
     def __abs__(self):
         return abs(self.i) + abs(self.j)
