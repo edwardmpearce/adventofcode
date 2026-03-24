@@ -4,6 +4,9 @@
 https://adventofcode.com/2016/day/2
 Part 1: Simulate pressing buttons on a numeric keypad with digits 1-9
 Part 2: Simulate pressing buttons on a diamond shaped keypad with digits from 1-9, A-D
+
+References
+- https://realpython.com/instance-class-and-static-methods-demystified/#when-to-use-class-methods
 """
 import os
 from dataclasses import dataclass
