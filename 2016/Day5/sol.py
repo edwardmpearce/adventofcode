@@ -36,24 +36,24 @@ def main():
 
 def solve_part_1(door_id: str, difficulty: int, password_length: int) -> str:
     """Find the password to a part-1 door given its Door ID.
-    
+
     The password for the door is generated one character at a time by finding the MD5 hash of the input Door ID with an increasing integer index (starting with 0).
-    A hash indicates the next character in the password if its hexadecimal representation starts with n zeroes, where n is the `difficulty`. 
+    A hash indicates the next character in the password if its hexadecimal representation starts with n zeroes, where n is the `difficulty`.
     If it does, the (n+1)-th character in the hash is the next character of the password.
     """
     if not (isinstance(difficulty, int) and 0 <= difficulty <= 31):
         raise ValueError("Difficulty must be an integer between 0 and 31")
     if not (isinstance(password_length, int) and password_length >= 0):
         raise ValueError("Password length must be an integer greater than or equal to 0")
-    
+
     return "".join([digest[difficulty] for digest in itertools.islice(generate_valid_md5_hash(door_id, difficulty), password_length)])
 
 
 def solve_part_2(door_id: str, difficulty: int, password_length: int) -> str:
     """Find the password to a part-2 door given its Door ID.
-    
+
     The password for the door is generated one character at a time by finding the MD5 hash of the input Door ID with an increasing integer index (starting with 0).
-    A hash indicates the next character in the password if its hexadecimal representation starts with n zeroes, where n is the `difficulty`. 
+    A hash indicates the next character in the password if its hexadecimal representation starts with n zeroes, where n is the `difficulty`.
     If it does, the (n+1)-th character represents a character position in the password, and (n+2)-th character is the character to put in that position.
     Uses only the first result for each position, and ignores invalid positions.
     If the (n+1)-th character does not indicate a valid position in the password (between 0 and `password_length - 1`), then proceed to the next valid hash.
