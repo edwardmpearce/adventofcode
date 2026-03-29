@@ -1,4 +1,4 @@
-"""Testing functions for 2016 Day 4 Part 1
+"""Testing functions for 2016 Day 4
 
 References
 - https://docs.pytest.org/en/latest/how-to/parametrize.html#parametrizemark
