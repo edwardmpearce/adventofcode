@@ -50,10 +50,10 @@ class RoomData:
         """Extract room data from a formatted string.
         Each room consists of an encrypted name (lowercase letters separated by dashes) followed by a dash, a sector ID, and a checksum in square brackets.
         """
-        match = re.match(r"([a-z-]+)-([0-9]+)\[([a-z]+)\]", data)
-        if not match:
+        m = re.match(r"([a-z-]+)-([0-9]+)\[([a-z]+)\]", data)
+        if not m:
             raise ValueError(f"Could not parse room data string '{data}'")
-        return cls(encrypted_name=match[1], sector_id=int(match[2]), checksum=match[3])
+        return cls(encrypted_name=m[1], sector_id=int(m[2]), checksum=m[3])
 
     def is_valid(self) -> bool:
         """A room is real (not a decoy) if the checksum is the five most common letters in the encrypted name, in order, with ties broken by alphabetization."""
