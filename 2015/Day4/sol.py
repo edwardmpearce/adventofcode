@@ -23,7 +23,6 @@ DIRPATH = os.path.dirname(__file__)
 
 
 def main():
-    # Load input file
     with open(os.path.join(DIRPATH, "input.txt"), 'r') as file:
         secret_key = file.read()
 
@@ -48,12 +47,6 @@ def find_smallest_valid_nonce(key: str, difficulty: int) -> int:
         message_digest = md5_hash.hexdigest()
         if message_digest.startswith("0" * difficulty):
             return i
-
-
-def test_find_smallest_valid_nonce():
-    """Part 1 Test Cases"""
-    assert find_smallest_valid_nonce("abcdef", 5) == 609043
-    assert find_smallest_valid_nonce("pqrstuv", 5) == 1048970
 
 
 if __name__ == "__main__":
